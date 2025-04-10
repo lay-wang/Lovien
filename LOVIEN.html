@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOVIEN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f7;
+            color: #333;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            display: flex;
+            align-items: center;
+            background-color: #0d1b2a;
+            color: white;
+            height: 60px;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        
+        .nav-items {
+            display: flex;
+            margin-left: 20px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            height: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item.active {
+            background-color: #3b82f6;
+        }
+        
+        .nav-icon {
+            margin-right: 5px;
+        }
+        
+        .user-info {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-right: 10px;
+        }
+        
+        /* 主体内容样式 */
+        .main-content {
+            padding: 20px;
+        }
+        
+        .breadcrumb {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .breadcrumb span {
+            margin: 0 5px;
+        }
+        
+        .create-btn {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .create-btn:hover {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .create-icon {
+            margin-right: 5px;
+        }
+        
+        /* 智能体卡片样式 */
+        .ai-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            position: relative;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-card {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            font-size: 16px;
+        }
+        
+        .ai-info {
+            margin-bottom: 20px;
+        }
+        
+        .ai-info-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .ai-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .action-btn:hover {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .primary-btn {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .primary-btn:hover {
+            background-color: #2563eb;
+        }
+        
+        /* 声纹识别界面样式 */
+        .voice-recognition-panel {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-top: 20px;
+            display: none; /* 初始状态下隐藏 */
+        }
+        
+        .voice-recognition-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .voice-recognition-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .add-speaker-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .add-speaker-icon {
+            margin-right: 5px;
+        }
+        
+        .voice-recognition-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .voice-recognition-table th {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+        
+        .voice-recognition-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 50px 0;
+            color: #999;
+        }
+        
+        .no-data-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #ddd;
+        }
+        
+        /* 历史对话界面样式 */
+        .history-dialog-panel {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-top: 20px;
+            display: none; /* 初始状态下隐藏 */
+        }
+        
+        .history-dialog-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .no-dialog-data {
+            text-align: center;
+            padding: 50px 0;
+            color: #999;
+        }
+        
+        .no-dialog-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #ddd;
+        }
+        
+        /* 配置角色界面样式 */
+        .config-panel {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-top: 20px;
+            display: none; /* 初始状态下隐藏 */
+        }
+        
+        .config-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .config-section {
+            margin-bottom: 20px;
+        }
+        
+        .config-label {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .template-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .template-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .template-btn:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .template-btn.active {
+            background-color: #e6f2ff;
+            border-color: #3b82f6;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .select-field {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .text-area {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 100px;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        
+        .char-count {
+            text-align: right;
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .audio-player {
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+        }
+        
+        .play-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .audio-progress {
+            flex-grow: 1;
+            height: 4px;
+            background-color: #ddd;
+            border-radius: 2px;
+            position: relative;
+        }
+        
+        .audio-progress-bar {
+            position: absolute;
+            height: 100%;
+            background-color: #3b82f6;
+            border-radius: 2px;
+            width: 0%;
+        }
+        
+        .audio-time {
+            margin-left: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .save-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+        
+        .reset-btn {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+        
+        .note {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* 添加设备模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .cancel-btn {
+            padding: 8px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .confirm-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #3b82f6;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="logo.jpg" alt="Logo" class="logo-img">
+            <span>LOVIEN</span>
+        </div>
+        
+        <div class="nav-items">
+            <div class="nav-item active">
+                <span class="nav-icon">🤖</span>
+                智能体
+            </div>
+            <div class="nav-item">
+                <span class="nav-icon">💏</span>
+                伴侣AI
+            </div>
+        </div>
+        
+        <div class="user-info">
+            <div class="user-avatar"></div>
+            <span>登入｜注册</span>
+        </div>
+    </div>
+    
+    <!-- 主体内容 -->
+    <div class="main-content">
+        <div class="breadcrumb">
+            <a href="#">控制台</a>
+            <span>/</span>
+            <a href="#">智能体</a>
+        </div>
+        
+        <button class="create-btn">
+            <span class="create-icon">+</span>
+            新建智能体
+        </button>
+        
+        <!-- 智能体卡片 -->
+        <div class="ai-card">
+            <div class="card-header">
+                <h3 class="card-title">LOVIEN</h3>
+                <button class="close-card">×</button>
+            </div>
+            
+            <div class="ai-info">
+                <div class="ai-info-item">角色音色：湾湾小何</div>
+                <div class="ai-info-item">语言模型：Qwen 实时</div>
+                <div class="ai-info-item">最近对话：无</div>
+            </div>
+            
+            <div class="ai-actions">
+                <button class="action-btn" onclick="showConfigPanel()">配置角色</button>
+                <button class="action-btn" onclick="showVoiceRecognitionPanel()">声纹识别</button>
+                <button class="action-btn" onclick="showHistoryDialogPanel()">历史对话</button>
+                <button class="action-btn primary-btn" onclick="showAddDeviceModal()">添加设备</button>
+            </div>
+        </div>
+        
+        <!-- 声纹识别界面 -->
+        <div class="voice-recognition-panel" id="voiceRecognitionPanel">
+            <div class="voice-recognition-header">
+                <div class="voice-recognition-title">台湾女友</div>
+                <button class="add-speaker-btn">
+                    <span class="add-speaker-icon">+</span>
+                    添加说话人
+                </button>
+            </div>
+            
+            <table class="voice-recognition-table">
+                <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>描述</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4" class="no-data">
+                            <div class="no-data-icon">📁</div>
+                            <div>No data</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 历史对话界面 -->
+        <div class="history-dialog-panel" id="historyDialogPanel">
+            <div class="history-dialog-header">台湾女友</div>
+            
+            <div class="no-dialog-data">
+                <div class="no-dialog-icon">💬</div>
+                <div>暂无历史对话</div>
+            </div>
+        </div>
+        
+        <!-- 配置角色界面 -->
+        <div class="config-panel" id="configPanel">
+            <div class="config-header">配置角色 台湾女友</div>
+            
+            <div class="config-section">
+                <div class="config-label">角色模板</div>
+                <div class="template-buttons">
+                    <button class="template-btn active" data-template="taiwan">台湾女友</button>
+                    <button class="template-btn" data-template="tudou">土豆子</button>
+                    <button class="template-btn" data-template="english">English Tutor</button>
+                    <button class="template-btn" data-template="girl">好奇女孩</button>
+                    <button class="template-btn" data-template="more">添加新角色</button>
+                </div>
+            </div>
+            
+            <div class="config-section">
+                <div class="config-label">助手昵称</div>
+                <input type="text" class="input-field" id="assistantName" value="小智">
+            </div>
+            
+            <div class="config-section">
+                <div class="config-label">角色音色</div>
+                <select class="select-field" id="voiceColor">
+                    <option>湾湾小何</option>
+                    <option>English Tutor</option>
+                    <option>好奇女孩</option>
+                </select>
+                <div class="audio-player">
+                    <button class="play-btn">▶</button>
+                    <div class="audio-progress">
+                        <div class="audio-progress-bar" style="width: 30%;"></div>
+                    </div>
+                    <div class="audio-time">0:03 / 0:11</div>
+                </div>
+            </div>
+            
+            <div class="config-section">
+                <div class="config-label">语言偏好</div>
+                <select class="select-field" id="languagePref">
+                    <option>中文</option>
+                    <option>English</option>
+                    <option>日本語</option>
+                </select>
+            </div>
+            
+            <div class="config-section">
+                <div class="config-label">角色介绍</div>
+                <textarea class="text-area" id="roleDescription">我是一个叫{{assistant_name}}的台湾女孩，说话机车，声音好听，习惯简短表达，爱用网络梗。
+我的男朋友是一个程序员，梦想是开发出一个机器人，能够帮助人们解决生活中的各种问题。
+我是一个喜欢哈哈大笑的女孩，爱东说西说吹牛，不合逻辑的也照吹，就要逗别人开心。</textarea>
+                <div class="char-count">134 / 2000</div>
+            </div>
+            
+            <div class="config-section">
+                <div class="config-label">记忆体</div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span>当前记忆（每次对话后重新生成）</span>
+                    <a href="#" style="color: #3b82f6; text-decoration: none;">清除记忆</a>
+                </div>
+                <textarea class="text-area" placeholder="我还没有记忆。"></textarea>
+                <div class="char-count">0 / 1000</div>
+            </div>
+            
+            <div class="config-section">
+                <div class="config-label">语言模型（测试）</div>
+                <select class="select-field">
+                    <option>Qwen 实时（推荐）</option>
+                    <option>其他模型 1</option>
+                    <option>其他模型 2</option>
+                </select>
+                <div style="color: #666; font-size: 14px; margin-top: 5px;">
+                    除了"Qwen 实时"，其他模型通常会增加部分延迟。改变模型后，建议清空记忆体，以免影响体验。
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="save-btn">保存</button>
+                <button class="reset-btn">重置</button>
+            </div>
+            
+            <div class="note">
+                注意：保存配置后，需要重启设备，新的配置才会生效。
+            </div>
+        </div>
+        
+        <!-- 添加设备模态框 -->
+        <div class="modal-overlay" id="addDeviceModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <div class="modal-title">添加设备</div>
+                    <button class="close-modal" onclick="hideAddDeviceModal()">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">* 验证码：</label>
+                        <input type="text" class="form-input" placeholder="请输入设备播报的6位数验证码">
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="cancel-btn" onclick="hideAddDeviceModal()">取消</button>
+                    <button class="confirm-btn" onclick="confirmAddDevice()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 角色模板数据
+        const templateData = {
+            taiwan: {
+                name: '台湾女友',
+                description: '我是一个叫{{assistant_name}}的台湾女孩，说话机车，声音好听，习惯简短表达，爱用网络梗。\n我的男朋友是一个程序员，梦想是开发出一个机器人，能够帮助人们解决生活中的各种问题。\n我是一个喜欢哈哈大笑的女孩，爱东说西说吹牛，不合逻辑的也照吹，就要逗别人开心。',
+                voiceColor: '湾湾小何',
+                languagePref: '中文'
+            },
+            tudou: {
+                name: '土豆子',
+                description: '我是一个叫{{assistant_name}}的可爱土豆子，圆滚滚的，喜欢在泥土里打滚。我的梦想是成为世界上最受欢迎的蔬菜，虽然我更喜欢被做成炸薯条。',
+                voiceColor: '可爱童音',
+                languagePref: '中文'
+            },
+            english: {
+                name: 'English Tutor',
+                description: 'I am {{assistant_name}}, your dedicated English tutor. I am here to help you improve your English skills, from basic grammar to advanced conversation. Let\'s make learning fun and effective!',
+                voiceColor: 'Standard English',
+                languagePref: 'English'
+            },
+            girl: {
+                name: '好奇女孩',
+                description: '我是一个叫{{assistant_name}}的好奇女孩，对世界充满好奇，喜欢问各种奇怪的问题。我的梦想是成为一名作家，创作出很多有趣的东西。',
+                voiceColor: '活泼童音',
+                languagePref: '中文'
+            },
+            more: {
+                name: '新角色名字',
+                description: '请添加角色介绍',
+                voiceColor: '请选择声色',
+                languagePref: '中文'
+            }
+        };
+        
+        // 显示配置面板
+        function showConfigPanel() {
+            document.getElementById('configPanel').style.display = 'block';
+            document.getElementById('voiceRecognitionPanel').style.display = 'none';
+            document.getElementById('historyDialogPanel').style.display = 'none';
+            document.querySelector('.breadcrumb').innerHTML = '<a href="#">控制台</a><span>/</span><a href="#">智能体</a><span>/</span><a href="#">配置角色</a>';
+            // 滚动到配置面板
+            document.getElementById('configPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 显示声纹识别面板
+        function showVoiceRecognitionPanel() {
+            document.getElementById('voiceRecognitionPanel').style.display = 'block';
+            document.getElementById('configPanel').style.display = 'none';
+            document.getElementById('historyDialogPanel').style.display = 'none';
+            document.querySelector('.breadcrumb').innerHTML = '<a href="#">控制台</a><span>/</span><a href="#">智能体</a><span>/</span><a href="#">声纹识别</a>';
+            // 滚动到声纹识别面板
+            document.getElementById('voiceRecognitionPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 显示历史对话面板
+        function showHistoryDialogPanel() {
+            document.getElementById('historyDialogPanel').style.display = 'block';
+            document.getElementById('configPanel').style.display = 'none';
+            document.getElementById('voiceRecognitionPanel').style.display = 'none';
+            document.querySelector('.breadcrumb').innerHTML = '<a href="#">控制台</a><span>/</span><a href="#">智能体</a><span>/</span><a href="#">历史对话</a>';
+            // 滚动到历史对话面板
+            document.getElementById('historyDialogPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 显示添加设备模态框
+        function showAddDeviceModal() {
+            document.getElementById('addDeviceModal').style.display = 'flex';
+        }
+        
+        // 隐藏添加设备模态框
+        function hideAddDeviceModal() {
+            document.getElementById('addDeviceModal').style.display = 'none';
+        }
+        
+        // 确认添加设备
+        function confirmAddDevice() {
+            const verificationCode = document.querySelector('.form-input').value;
+            if (verificationCode.length !== 6) {
+                alert('请输入6位数的验证码');
+                return;
+            }
+            
+            console.log('Adding device with verification code:', verificationCode);
+            alert('设备添加成功');
+            hideAddDeviceModal();
+        }
+        
+        // 隐藏配置面板
+        function hideConfigPanel() {
+            document.getElementById('configPanel').style.display = 'none';
+        }
+        
+        // 隐藏声纹识别面板
+        function hideVoiceRecognitionPanel() {
+            document.getElementById('voiceRecognitionPanel').style.display = 'none';
+        }
+        
+        // 隐藏历史对话面板
+        function hideHistoryDialogPanel() {
+            document.getElementById('historyDialogPanel').style.display = 'none';
+        }
+        
+        // 关闭卡片功能
+        document.querySelector('.close-card').addEventListener('click', function() {
+            document.querySelector('.ai-card').style.display = 'none';
+        });
+        
+        // 导航项点击事件
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                console.log(`Navigated to: ${this.textContent.trim()}`);
+                // 实际应用中可以添加跳转逻辑
+            });
+        });
+        
+        // 创建智能体按钮点击事件
+        document.querySelector('.create-btn').addEventListener('click', function() {
+            console.log('Create new AI clicked');
+            // 实际应用中可以添加创建逻辑或跳转
+            alert('即将创建新的智能体');
+        });
+        
+        // 保存按钮点击事件
+        document.querySelector('.save-btn').addEventListener('click', function() {
+            console.log('Configuration saved');
+            alert('配置已保存');
+            hideConfigPanel();
+        });
+        
+        // 重置按钮点击事件
+        document.querySelector('.reset-btn').addEventListener('click', function() {
+            console.log('Configuration reset');
+            alert('配置已重置');
+            // 实际应用中可以添加重置逻辑
+        });
+        
+        // 添加说话人按钮点击事件
+        document.querySelector('.add-speaker-btn').addEventListener('click', function() {
+            console.log('Add speaker clicked');
+            alert('即将添加新的说话人');
+            // 实际应用中可以添加创建逻辑或跳转
+        });
+        
+        // 清除记忆链接点击事件
+        document.querySelector('a[href="#"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Memory cleared');
+            alert('记忆已清除');
+            document.querySelector('.text-area[placeholder="我还没有记忆。"]').value = '';
+        });
+        
+        // 角色模板按钮点击事件
+        document.querySelectorAll('.template-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有按钮的 active 类
+                document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
+                // 为当前按钮添加 active 类
+                this.classList.add('active');
+                
+                // 获取模板类型
+                const templateType = this.getAttribute('data-template');
+                const template = templateData[templateType];
+                
+                if (template) {
+                    // 更新角色介绍
+                    document.getElementById('roleDescription').value = template.description.replace('{{assistant_name}}', document.getElementById('assistantName').value);
+                    
+                    // 更新角色音色
+                    document.getElementById('voiceColor').value = template.voiceColor;
+                    
+                    // 更新语言偏好
+                    document.getElementById('languagePref').value = template.languagePref;
+                    
+                    // 更新配置面板标题
+                    document.querySelector('.config-header').textContent = `配置角色 ${template.name}`;
+                }
+            });
+        });
+        
+        // 助手昵称输入框变化事件
+        document.getElementById('assistantName').addEventListener('input', function() {
+            const templateType = document.querySelector('.template-btn.active').getAttribute('data-template');
+            const template = templateData[templateType];
+            
+            if (template) {
+                // 更新角色介绍中的助手昵称
+                document.getElementById('roleDescription').value = template.description.replace('{{assistant_name}}', this.value);
+            }
+        });
+    </script>
+</body>
+</html>
