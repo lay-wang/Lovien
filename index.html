@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOVIEN</title>
+    <title>LOVIEN - 智能助手</title>
     <style>
+        /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
@@ -13,18 +14,20 @@
         }
         
         body {
-            background-color: #f5f5f7;
+            background-color: #f9f9f9;
             color: #333;
+            line-height: 1.6;
         }
         
         /* 导航栏样式 */
         .navbar {
             display: flex;
             align-items: center;
-            background-color: #0d1b2a;
+            background: linear-gradient(135deg, #1a2a3a, #0d1b2a);
             color: white;
-            height: 60px;
-            padding: 0 20px;
+            height: 70px;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
         .logo-container {
@@ -34,26 +37,32 @@
         }
         
         .logo-img {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            background-color: #ccc;
-            margin-right: 10px;
+            background-color: #e0e0e0;
+            margin-right: 15px;
             object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.05);
         }
         
         .nav-items {
             display: flex;
-            margin-left: 20px;
+            margin-left: 30px;
         }
         
         .nav-item {
             display: flex;
             align-items: center;
-            padding: 0 15px;
+            padding: 0 20px;
             height: 100%;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            border-radius: 4px;
         }
         
         .nav-item:hover {
@@ -61,85 +70,125 @@
         }
         
         .nav-item.active {
-            background-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
         }
         
         .nav-icon {
-            margin-right: 5px;
+            margin-right: 8px;
+            font-size: 18px;
         }
         
-        .user-info {
+        .user-actions {
             margin-left: auto;
             display: flex;
-            align-items: center;
+            gap: 15px;
         }
         
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #ccc;
-            margin-right: 10px;
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .login-btn {
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+        }
+        
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .register-btn {
+            background-color: #3b82f6;
+            border: 1px solid #3b82f6;
+            color: white;
+        }
+        
+        .register-btn:hover {
+            background-color: #2563eb;
         }
         
         /* 主体内容样式 */
         .main-content {
-            padding: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
         .breadcrumb {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #666;
+            font-size: 14px;
         }
         
         .breadcrumb a {
             color: #333;
             text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .breadcrumb a:hover {
+            color: #3b82f6;
         }
         
         .breadcrumb span {
-            margin: 0 5px;
+            margin: 0 8px;
         }
         
         .create-btn {
             background-color: white;
             border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 10px 15px;
+            padding: 12px 20px;
             display: inline-flex;
             align-items: center;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
         
         .create-btn:hover {
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
         
         .create-icon {
-            margin-right: 5px;
+            margin-right: 8px;
+            font-size: 18px;
         }
         
         /* 智能体卡片样式 */
         .ai-card {
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
             position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .ai-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
         
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .card-title {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 600;
+            color: #1a2a3a;
         }
         
         .close-card {
@@ -147,35 +196,44 @@
             border: none;
             cursor: pointer;
             color: #999;
-            font-size: 16px;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .close-card:hover {
+            color: #3b82f6;
         }
         
         .ai-info {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .ai-info-item {
-            margin-bottom: 10px;
-            font-size: 14px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #555;
         }
         
         .ai-actions {
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
         
         .action-btn {
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border-radius: 8px;
             border: 1px solid #ddd;
             background-color: white;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 14px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
         }
         
         .action-btn:hover {
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
         
         .primary-btn {
@@ -191,38 +249,56 @@
         /* 声纹识别界面样式 */
         .voice-recognition-panel {
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 20px;
-            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-top: 25px;
             display: none; /* 初始状态下隐藏 */
+            transition: all 0.3s;
+        }
+        
+        .voice-recognition-panel.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .voice-recognition-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .voice-recognition-title {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 600;
+            color: #1a2a3a;
         }
         
         .add-speaker-btn {
             background-color: #3b82f6;
             color: white;
             border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
+            border-radius: 8px;
+            padding: 10px 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .add-speaker-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
         }
         
         .add-speaker-icon {
-            margin-right: 5px;
+            margin-right: 8px;
         }
         
         .voice-recognition-table {
@@ -233,144 +309,184 @@
         
         .voice-recognition-table th {
             text-align: left;
-            padding: 12px 15px;
+            padding: 15px;
             border-bottom: 1px solid #eee;
             color: #666;
+            font-weight: 500;
         }
         
         .voice-recognition-table td {
-            padding: 12px 15px;
+            padding: 15px;
             border-bottom: 1px solid #eee;
         }
         
         .no-data {
             text-align: center;
-            padding: 50px 0;
+            padding: 70px 0;
             color: #999;
         }
         
         .no-data-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 60px;
+            margin-bottom: 15px;
             color: #ddd;
         }
         
         /* 历史对话界面样式 */
         .history-dialog-panel {
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 20px;
-            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-top: 25px;
             display: none; /* 初始状态下隐藏 */
+            transition: all 0.3s;
+        }
+        
+        .history-dialog-panel.active {
+            display: block;
+            animation: fadeIn 0.5s;
         }
         
         .history-dialog-header {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 600;
-            margin-bottom: 20px;
+            color: #1a2a3a;
+            margin-bottom: 25px;
         }
         
         .no-dialog-data {
             text-align: center;
-            padding: 50px 0;
+            padding: 70px 0;
             color: #999;
         }
         
         .no-dialog-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 60px;
+            margin-bottom: 15px;
             color: #ddd;
         }
         
         /* 配置角色界面样式 */
         .config-panel {
             background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 20px;
-            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-top: 25px;
             display: none; /* 初始状态下隐藏 */
+            transition: all 0.3s;
+        }
+        
+        .config-panel.active {
+            display: block;
+            animation: fadeIn 0.5s;
         }
         
         .config-header {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 600;
-            margin-bottom: 20px;
+            color: #1a2a3a;
+            margin-bottom: 25px;
         }
         
         .config-section {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .config-label {
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            color: #333;
         }
         
         .template-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 20px;
         }
         
         .template-btn {
-            padding: 6px 12px;
+            padding: 8px 16px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             background-color: white;
             cursor: pointer;
+            transition: all 0.3s;
         }
         
         .template-btn:hover {
-            background-color: #f5f5f5;
+            background-color: #f0f4ff;
+            border-color: #3b82f6;
         }
         
         .template-btn.active {
             background-color: #e6f2ff;
             border-color: #3b82f6;
+            color: #3b82f6;
         }
         
         .input-field {
             width: 100%;
-            padding: 8px 12px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-field:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
         
         .select-field {
             width: 100%;
-            padding: 8px 12px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .select-field:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
         
         .text-area {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            min-height: 100px;
+            border-radius: 6px;
+            min-height: 120px;
             resize: vertical;
             margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        .text-area:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
         
         .char-count {
             text-align: right;
             color: #999;
-            font-size: 12px;
-            margin-bottom: 15px;
+            font-size: 13px;
+            margin-bottom: 20px;
         }
         
         .audio-player {
             display: flex;
             align-items: center;
-            background-color: #f5f5f5;
-            border-radius: 4px;
-            padding: 8px 12px;
+            background-color: #f5f5f7;
+            border-radius: 6px;
+            padding: 10px 15px;
             margin-bottom: 15px;
         }
         
@@ -378,7 +494,14 @@
             background: none;
             border: none;
             cursor: pointer;
-            margin-right: 10px;
+            margin-right: 15px;
+            font-size: 18px;
+            color: #555;
+            transition: color 0.3s;
+        }
+        
+        .play-btn:hover {
+            color: #3b82f6;
         }
         
         .audio-progress {
@@ -387,6 +510,7 @@
             background-color: #ddd;
             border-radius: 2px;
             position: relative;
+            overflow: hidden;
         }
         
         .audio-progress-bar {
@@ -394,18 +518,19 @@
             height: 100%;
             background-color: #3b82f6;
             border-radius: 2px;
-            width: 0%;
+            width: 30%;
+            transition: width 0.3s;
         }
         
         .audio-time {
-            margin-left: 10px;
-            font-size: 12px;
+            margin-left: 15px;
+            font-size: 13px;
             color: #666;
         }
         
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             margin-top: 30px;
         }
         
@@ -413,23 +538,37 @@
             background-color: #3b82f6;
             color: white;
             border: none;
-            border-radius: 4px;
-            padding: 8px 20px;
+            border-radius: 8px;
+            padding: 12px 25px;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .save-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
         }
         
         .reset-btn {
             background-color: white;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 8px 20px;
+            border-radius: 8px;
+            padding: 12px 25px;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .reset-btn:hover {
+            background-color: #f5f5f7;
+            transform: translateY(-2px);
         }
         
         .note {
-            margin-top: 20px;
+            margin-top: 25px;
             color: #666;
             font-size: 14px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
         }
         
         /* 添加设备模态框样式 */
@@ -444,79 +583,333 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            transition: opacity 0.3s;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
         }
         
         .modal {
             background-color: white;
-            border-radius: 8px;
-            width: 500px;
+            border-radius: 12px;
+            width: 450px;
             max-width: 90%;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+            opacity: 1;
         }
         
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .modal-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
+            color: #1a2a3a;
         }
         
         .close-modal {
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
             color: #999;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #3b82f6;
         }
         
         .modal-body {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 500;
+            color: #333;
         }
         
         .form-input {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
         }
         
         .modal-footer {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
+            gap: 15px;
         }
         
         .cancel-btn {
-            padding: 8px 20px;
+            padding: 10px 25px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             background-color: white;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #f5f5f7;
+            transform: translateY(-2px);
         }
         
         .confirm-btn {
-            padding: 8px 20px;
+            padding: 10px 25px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             background-color: #3b82f6;
             color: white;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .confirm-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                height: auto;
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+            }
+            
+            .nav-items {
+                margin: 15px 0;
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .ai-actions {
+                flex-wrap: wrap;
+            }
+            
+            .action-btn {
+                flex: 1 0 40%;
+                margin-bottom: 10px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .save-btn, .reset-btn {
+                width: 100%;
+            }
+        }
+        
+        /* 登录和注册页面样式 */
+        .auth-container {
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        }
+        
+        .auth-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-bottom: 10px;
+        }
+        
+        .auth-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .auth-form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .auth-form-label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .auth-form-input {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+        
+        .auth-form-input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+        }
+        
+        .auth-form-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .auth-submit-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .auth-submit-btn:hover {
+            background-color: #2563eb;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .auth-switch-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .auth-switch-link:hover {
+            text-decoration: underline;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .tab.active {
+            color: #3b82f6;
+            font-weight: 500;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #3b82f6;
+        }
+        
+        .phone-input-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .country-code {
+            flex: 0 0 120px;
+        }
+        
+        .phone-number {
+            flex: 1;
+        }
+        
+        .verification-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .verification-input {
+            flex: 1;
+        }
+        
+        .send-verification {
+            flex: 0 0 150px;
+        }
+        
+        .login-button {
+            margin-top: 20px;
+        }
+        
+        .login-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .login-footer a {
+            color: #3b82f6;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -539,9 +932,9 @@
             </div>
         </div>
         
-        <div class="user-info">
-            <div class="user-avatar"></div>
-            <span>登入｜注册</span>
+        <div class="user-actions">
+            <button class="auth-btn login-btn" onclick="loginToExternalSite()">登录</button>
+            <button class="auth-btn register-btn" onclick="showRegisterMessage()">注册</button>
         </div>
     </div>
     
@@ -764,42 +1157,54 @@
         
         // 显示配置面板
         function showConfigPanel() {
+            hideAllPanels();
             document.getElementById('configPanel').style.display = 'block';
-            document.getElementById('voiceRecognitionPanel').style.display = 'none';
-            document.getElementById('historyDialogPanel').style.display = 'none';
+            document.getElementById('configPanel').classList.add('active');
             document.querySelector('.breadcrumb').innerHTML = '<a href="#">控制台</a><span>/</span><a href="#">智能体</a><span>/</span><a href="#">配置角色</a>';
-            // 滚动到配置面板
             document.getElementById('configPanel').scrollIntoView({ behavior: 'smooth' });
         }
         
         // 显示声纹识别面板
         function showVoiceRecognitionPanel() {
+            hideAllPanels();
             document.getElementById('voiceRecognitionPanel').style.display = 'block';
-            document.getElementById('configPanel').style.display = 'none';
-            document.getElementById('historyDialogPanel').style.display = 'none';
+            document.getElementById('voiceRecognitionPanel').classList.add('active');
             document.querySelector('.breadcrumb').innerHTML = '<a href="#">控制台</a><span>/</span><a href="#">智能体</a><span>/</span><a href="#">声纹识别</a>';
-            // 滚动到声纹识别面板
             document.getElementById('voiceRecognitionPanel').scrollIntoView({ behavior: 'smooth' });
         }
         
         // 显示历史对话面板
         function showHistoryDialogPanel() {
+            hideAllPanels();
             document.getElementById('historyDialogPanel').style.display = 'block';
+            document.getElementById('historyDialogPanel').classList.add('active');
+            document.querySelector('.breadcrumb').innerHTML = '<a href="#">控制台</a><span>/</span><a href="#">智能体</a><span>/</span><a href="#">历史对话</a>';
+            document.getElementById('historyDialogPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 隐藏所有面板
+        function hideAllPanels() {
             document.getElementById('configPanel').style.display = 'none';
             document.getElementById('voiceRecognitionPanel').style.display = 'none';
-            document.querySelector('.breadcrumb').innerHTML = '<a href="#">控制台</a><span>/</span><a href="#">智能体</a><span>/</span><a href="#">历史对话</a>';
-            // 滚动到历史对话面板
-            document.getElementById('historyDialogPanel').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('historyDialogPanel').style.display = 'none';
+            
+            document.getElementById('configPanel').classList.remove('active');
+            document.getElementById('voiceRecognitionPanel').classList.remove('active');
+            document.getElementById('historyDialogPanel').classList.remove('active');
         }
         
         // 显示添加设备模态框
         function showAddDeviceModal() {
             document.getElementById('addDeviceModal').style.display = 'flex';
+            document.getElementById('addDeviceModal').classList.add('active');
         }
         
         // 隐藏添加设备模态框
         function hideAddDeviceModal() {
-            document.getElementById('addDeviceModal').style.display = 'none';
+            document.getElementById('addDeviceModal').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('addDeviceModal').style.display = 'none';
+            }, 300);
         }
         
         // 确认添加设备
@@ -815,21 +1220,6 @@
             hideAddDeviceModal();
         }
         
-        // 隐藏配置面板
-        function hideConfigPanel() {
-            document.getElementById('configPanel').style.display = 'none';
-        }
-        
-        // 隐藏声纹识别面板
-        function hideVoiceRecognitionPanel() {
-            document.getElementById('voiceRecognitionPanel').style.display = 'none';
-        }
-        
-        // 隐藏历史对话面板
-        function hideHistoryDialogPanel() {
-            document.getElementById('historyDialogPanel').style.display = 'none';
-        }
-        
         // 关闭卡片功能
         document.querySelector('.close-card').addEventListener('click', function() {
             document.querySelector('.ai-card').style.display = 'none';
@@ -841,14 +1231,12 @@
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
                 console.log(`Navigated to: ${this.textContent.trim()}`);
-                // 实际应用中可以添加跳转逻辑
             });
         });
         
         // 创建智能体按钮点击事件
         document.querySelector('.create-btn').addEventListener('click', function() {
             console.log('Create new AI clicked');
-            // 实际应用中可以添加创建逻辑或跳转
             alert('即将创建新的智能体');
         });
         
@@ -856,21 +1244,19 @@
         document.querySelector('.save-btn').addEventListener('click', function() {
             console.log('Configuration saved');
             alert('配置已保存');
-            hideConfigPanel();
+            hideAllPanels();
         });
         
         // 重置按钮点击事件
         document.querySelector('.reset-btn').addEventListener('click', function() {
             console.log('Configuration reset');
             alert('配置已重置');
-            // 实际应用中可以添加重置逻辑
         });
         
         // 添加说话人按钮点击事件
         document.querySelector('.add-speaker-btn').addEventListener('click', function() {
             console.log('Add speaker clicked');
             alert('即将添加新的说话人');
-            // 实际应用中可以添加创建逻辑或跳转
         });
         
         // 清除记忆链接点击事件
@@ -919,6 +1305,25 @@
                 document.getElementById('roleDescription').value = template.description.replace('{{assistant_name}}', this.value);
             }
         });
+        
+        // 点击页面其他区域关闭模态框
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('addDeviceModal');
+            if (modal.style.display === 'flex' && !modal.contains(event.target)) {
+                hideAddDeviceModal();
+            }
+        });
+        
+        // 跳转到外部登录网站
+        function loginToExternalSite() {
+            // 替换为实际的登录网站URL
+            window.location.href = 'https://lay-wang.github.io/web/';
+        }
+        
+        // 显示注册消息
+        function showRegisterMessage() {
+            alert('开发测试阶段，暂不支持注册');
+        }
     </script>
 </body>
 </html>
